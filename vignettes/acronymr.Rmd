@@ -1,0 +1,113 @@
+---
+title: "Using acronymr in rmarkdown"
+author: "Joel Allen"
+date: "`r Sys.Date()`"
+output: 
+  rmarkdown::html_vignette:
+    pandoc_args: [
+      "--filter", "pandoc-crossref"
+      ]
+vignette: >
+  %\VignetteIndexEntry{Using acronymr}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+library(acronymr)
+
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+This vignette describes the use the acronymr package. The function `ac` formats acronyms when called inline in rmarkdown. `acTable` will generate a dataframe of acronyms used suitable for inclusion as an Acronyms Used table.
+```{r acTabl}
+knitr::load_cache("ChunkToCacheAcronyms")
+if(exists("acronymsCached")){
+  knitr::kable(acronymsCached, caption = "Acronyms Used")
+}
+```
+
+# `ac`
+`ac` handles inline acronyms at docunet compilation by referencing a dataframe containing the acronym name, alternate formatting, and definition and returns a character string. Options include:    
+    * `p`: whether the acronym usage is singular or plural    
+    * `altFrm`: whether the alternative form should be used    
+    * `lngFrm`: whether the full definition should be used    
+The function handles missing acronyms, checks for first time usage, and formats the return accordingly. This function is most commonly used in rmarkdown documents.
+
+The lookup dataframe contains four columns:   
+    * `Acronym`: name of acronym    
+    * `Alternate`: alternate formatting for use when the acronym uses special characters or other formatting such as super/subscripts, italics, etc.    
+    * `Definition`: long form of acronym    
+    * `Include`: logical flag indicating if the acronym has been used in the document. This value must be FALSE at the beginning of each render.
+
+```{r acronyms, echo=TRUE, results='markup'}
+
+acronyms <-
+  # Create acronyms lookup table
+  tibble::tribble(
+    ~Acronym, ~Alternate, ~Definition,
+    "GMO", NA, "Genetically Modified Organism",
+    'IMO', NA,'In My Opinion',
+    'PCR', NA, 'Polymerase Chain Reaction',
+    'DNA', NA, 'Deoxyribonucleic Acid',
+    'H2NO3', 'H~2~NO~3~', 'Nitric Acid')
+# Add inclusion flag
+acronyms$Include <- FALSE
+# Alphabetize acronyms for ease of reading
+acronyms <- acronyms[order(acronyms$Acronym),]
+
+acronyms
+```
+
+When an acronym is used, if Include is set to `FALSE` indicating first usage, the return value is the long form of the acronym followed by either the acronym name or alternate form depending on `altFrm`. Plural forms can be generated using the parameter `p`. Subsequent uses of the acronym will return the acronym formatted as requested.
+
+The following:
+
+The `` `r
+ac("DNA")` `` of a `` `r
+ac("GMO")` `` has been modified. `` `r
+ac("PCR")` `` can be used to characterize `` `r
+ac("DNA")` `` in `` `r
+ac("GMO", p = TRUE)` ``. Be careful to avoid introduction of `` `r
+ac("H2NO3", altFrm = TRUE)` ``.
+
+Produces:
+
+The `r ac("DNA")` of a `r ac("GMO")` has been modified. `r ac("PCR")` can be used to characterize `r ac("DNA")` in `r ac("GMO", p = TRUE)`. Be careful to avoid introduction of `r ac("H2NO3", altFrm = TRUE)`.
+
+`acronyms$Include` is updated to `TRUE`.
+
+```{r, echo=TRUE, results='markup'}
+acronyms
+```
+
+If `acronyms` is not found or if `acronyms` exists but is not a dataframe or does not include the necessary columns, the function stops and issues an error. If the acronym is not found in `acronyms` a warning is issued and XXXacro:Acronym Not DefinedXXX is returned. 
+
+What happens when an acronym, `lol`, isn't found? This is lot's of fun `r ac("lol")`. 
+
+# `acTable`
+`acTable` is most often used within a knitted document. The function checks if a data frame named in `acronyms` exists and whether any acronyms were used in the document. If both criteria are true, a dataframe containing the acronym and definition of all acronyms used in the document is returned.
+
+Placement of an acronym table in the head matter of the document requires caching of the `acronyms` frame after the document is compiled. This necessitates complitation of the document twice. Place a chunk where you would like the table using `knitr::load_cache` with `label = "ChunkToCacheAcronyms"` as in:
+
+    ```{r ChunkToPlaceTable, echo=FALSE}
+    knitr::load_cache(label = "ChunkToCacheAcronym")
+    if(exists("acronymsCached")){
+      knitr::kable(acronymsCached, caption = "Acronyms Used")
+    }
+    ```
+
+At the end of your document place a chunk which will cache the updated acronyms frame. It will need to be cached as a differnt object than the working object as in:
+
+    ```{r ChunkToCacheAcronym, cache = TRUE, echo=FALSE}       
+    acronymsCached <- acTable("acronyms")
+    ```
+    
+Finally, compile the document twice. The first compliation will write the updated acronyms frame to cache and the second will read the cached frame to print the updated acronym table in the final document.
+
+```{r ChunkToCacheAcronyms, cache=TRUE, echo=FALSE}
+acronymsCached <- acTable("acronyms")
+```
