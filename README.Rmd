@@ -29,7 +29,7 @@ devtools::install_github("HJAllen/acronymr")
 
 ## Example
 
-
+A data frame with acronyms and definitions provided by the user:
 ```{r acronyms, echo=TRUE, results='markup'}
 library(acronymr)
 
@@ -50,7 +50,7 @@ acronyms <- acronyms[order(acronyms$Acronym),]
 acronyms
 ```
 
-When an acronym is used, if Include is set to `FALSE` indicating first usage, the return value is the long form of the acronym followed by either the acronym name or alternate form depending on `altFrm`. Plural forms can be generated using the parameter `p`. Subsequent uses of the acronym will return the acronym formatted as requested.
+The function `ac` will insert the formatted acronym. When an acronym is used, if `acronyms$Include` is set to `FALSE` indicating first usage, the return value is the long form of the acronym followed by either the acronym name or alternate form depending on `altFrm`. Plural forms can be generated using the parameter `p`. Subsequent uses of the acronym will return the acronym formatted as requested.
 
 The following:
 
@@ -66,9 +66,15 @@ Produces:
 
 The `r ac("DNA")` of a `r ac("GMO")` has been modified. `r ac("PCR")` can be used to characterize `r ac("DNA")` in `r ac("GMO", p = TRUE)`. Be careful to avoid introduction of `r ac("H2NO3", altFrm = TRUE)`.
 
-`acronyms$Include` is updated to `TRUE`.
+There are instances when the long form of the acronym is needed such as section headings: `` `r
+ac("GMO", lngFrm = TRUE)` ``.
 
-A data frame containing used acronyms:
-```{r ChunkToCacheAcronyms, results='markup'}
-acTable("acronyms")
+## `r ac("GMO", lngFrm = TRUE)`
+
+When an acronym is used, `acronyms$Include` is updated to `TRUE` and a data frame containing used acronyms suitable for table generation is returned by `acTable`:
+```{r ChunkToCacheAcronyms, echo = TRUE, results='markup'}
+acTable("acronyms", altFrm = TRUE)
+
+knitr::kable(acTable("acronyms", altFrm = TRUE),
+             caption = "*Table 1.* Acronyms Used.")
 ```

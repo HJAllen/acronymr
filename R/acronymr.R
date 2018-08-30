@@ -87,7 +87,7 @@ ac <- function(acronym = NULL, # Reference name of the acronym
 
   # Format return for acronym already used
   # determine if alternate formatting is to be used
-  if (altFrm == TRUE){
+  if (altFrm){
     # Make sure Alternate is not NA
     if(!is.na(acronyms_[acronyms_row, "Alternate"])){
       acronyms_col <- which(colnames(acronyms_) == "Alternate")
@@ -95,7 +95,10 @@ ac <- function(acronym = NULL, # Reference name of the acronym
       warning("Alternate Form requested but not found. Using Acronym.")
       acronyms_col <- which(colnames(acronyms_) == "Acronym")
     }
-  }else acronyms_col <- which(colnames(acronyms_) == "Acronym")
+  } else if(lngFrm){
+    # Use Definition if long form requested
+    acronyms_col <- which(colnames(acronyms_) == "Definition")
+  } else acronyms_col <- which(colnames(acronyms_) == "Acronym")
 
   # Return acronym from appropriate column
   # if plural is True make plural by adding s

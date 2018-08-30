@@ -25,6 +25,8 @@ devtools::install_github("HJAllen/acronymr")
 
 ## Example
 
+A data frame with acronyms and definitions provided by the user:
+
 ``` r
 library(acronymr)
 
@@ -53,11 +55,12 @@ acronyms
 #> 5 PCR     <NA>      Polymerase Chain Reaction     FALSE
 ```
 
-When an acronym is used, if Include is set to `FALSE` indicating first
-usage, the return value is the long form of the acronym followed by
-either the acronym name or alternate form depending on `altFrm`. Plural
-forms can be generated using the parameter `p`. Subsequent uses of the
-acronym will return the acronym formatted as requested.
+The function `ac` will insert the formatted acronym. When an acronym is
+used, if `acronyms$Include` is set to `FALSE` indicating first usage,
+the return value is the long form of the acronym followed by either the
+acronym name or alternate form depending on `altFrm`. Plural forms can
+be generated using the parameter `p`. Subsequent uses of the acronym
+will return the acronym formatted as requested.
 
 The following:
 
@@ -73,14 +76,34 @@ has been modified. Polymerase Chain Reaction (PCR) can be used to
 characterize DNA in GMOs. Be careful to avoid introduction of Nitric
 Acid (H<sub>2</sub>NO<sub>3</sub>).
 
-`acronyms$Include` is updated to `TRUE`.
+There are instances when the long form of the acronym is needed such as
+section headings: `` `r ac("GMO", lngFrm = TRUE)` ``.
 
-A data frame containing used acronyms:
+## Genetically Modified Organism
 
-    #> # A tibble: 4 x 2
-    #>   Acronym Definition                   
-    #>   <chr>   <chr>                        
-    #> 1 DNA     Deoxyribonucleic Acid        
-    #> 2 GMO     Genetically Modified Organism
-    #> 3 H2NO3   Nitric Acid                  
-    #> 4 PCR     Polymerase Chain Reaction
+When an acronym is used, `acronyms$Include` is updated to `TRUE` and a
+data frame containing used acronyms suitable for table generation is
+returned by `acTable`:
+
+``` r
+acTable("acronyms", altFrm = TRUE)
+#> # A tibble: 4 x 2
+#>   Acronym   Definition                   
+#>   <chr>     <chr>                        
+#> 1 DNA       Deoxyribonucleic Acid        
+#> 2 GMO       Genetically Modified Organism
+#> 3 H~2~NO~3~ Nitric Acid                  
+#> 4 PCR       Polymerase Chain Reaction
+
+knitr::kable(acTable("acronyms", altFrm = TRUE),
+             caption = "*Table 1.* Acronyms Used.")
+```
+
+| Acronym                     | Definition                    |
+| :-------------------------- | :---------------------------- |
+| DNA                         | Deoxyribonucleic Acid         |
+| GMO                         | Genetically Modified Organism |
+| H<sub>2</sub>NO<sub>3</sub> | Nitric Acid                   |
+| PCR                         | Polymerase Chain Reaction     |
+
+*Table 1.* Acronyms Used.

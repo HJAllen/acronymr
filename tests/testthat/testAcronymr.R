@@ -24,6 +24,7 @@ test_that("ac finds GMO", {
   expect_equal(nrow(acTable("acronyms")), 1)
   expect_equal(ncol(acTable("acronyms")), 2)
   expect_equal(acTable("acronyms")$Acronym, "GMO")
+  expect_equal(ac("GMO", lngFrm = TRUE), "Genetically Modified Organism")
 })
 
 test_that("altFrm is returned", {

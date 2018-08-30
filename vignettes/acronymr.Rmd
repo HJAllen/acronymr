@@ -78,7 +78,12 @@ Produces:
 
 The `r ac("DNA")` of a `r ac("GMO")` has been modified. `r ac("PCR")` can be used to characterize `r ac("DNA")` in `r ac("GMO", p = TRUE)`. Be careful to avoid introduction of `r ac("H2NO3", altFrm = TRUE)`.
 
-`acronyms$Include` is updated to `TRUE`.
+There are instances when the long form of the acronym is needed such as section headings: `` `r
+ac("GMO", lngFrm = TRUE)` ``.
+
+## `r ac("GMO", lngFrm = TRUE)`
+
+When an acronym is used, `acronyms$Include` is updated to `TRUE`.
 
 ```{r, echo=TRUE, results='markup'}
 acronyms
