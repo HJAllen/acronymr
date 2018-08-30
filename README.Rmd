@@ -75,6 +75,6 @@ When an acronym is used, `acronyms$Include` is updated to `TRUE` and a data fram
 ```{r ChunkToCacheAcronyms, echo = TRUE, results='markup'}
 acTable("acronyms", altFrm = TRUE)
 
-knitr::kable(acTable("acronyms", altFrm = TRUE),
+knitr::kable(acTable("acronyms"),
              caption = "*Table 1.* Acronyms Used.")
 ```

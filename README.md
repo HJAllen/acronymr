@@ -95,7 +95,7 @@ acTable("acronyms", altFrm = TRUE)
 #> 3 H~2~NO~3~ Nitric Acid                  
 #> 4 PCR       Polymerase Chain Reaction
 
-knitr::kable(acTable("acronyms", altFrm = TRUE),
+knitr::kable(acTable("acronyms"),
              caption = "*Table 1.* Acronyms Used.")
 ```
 

@@ -139,7 +139,7 @@ ac <- function(acronym = NULL, # Reference name of the acronym
 #' acTable("acronyms")
 #' @export
 acTable <- function(acronyms = "acronyms",
-                     altFrm = FALSE,
+                     altFrm = TRUE,
                      Caption = NULL,
                      Tag = FALSE){
   # Check if acronyms exists

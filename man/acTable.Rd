@@ -4,7 +4,7 @@
 \alias{acTable}
 \title{Return acronyms used dataframe}
 \usage{
-acTable(acronyms = "acronyms", altFrm = FALSE, Caption = NULL,
+acTable(acronyms = "acronyms", altFrm = TRUE, Caption = NULL,
   Tag = FALSE)
 }
 \arguments{
