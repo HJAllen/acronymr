@@ -4,10 +4,10 @@ Version: 0.1.0
 Authors@R: person("Joel", "Allen", email = "allen.joel@epa.gov", role = c("aut", "cre"))
 Description: R package to format acronyms in knited documents. 
 Depends: R (>= 3.5.0)
-License: MIT
+License: CC0
 Encoding: UTF-8
 LazyData: true
 Imports: knitr
 RoxygenNote: 6.1.0
-Suggests: testthat
+Suggests: testthat, tibble
 VignetteBuilder: knitr

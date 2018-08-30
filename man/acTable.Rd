@@ -4,8 +4,7 @@
 \alias{acTable}
 \title{Return acronyms used dataframe}
 \usage{
-acTable(acronyms = "acronyms", altFrm = TRUE, Caption = NULL,
-  Tag = FALSE)
+acTable(acronyms = "acronyms", altFrm = TRUE, Caption = NULL)
 }
 \arguments{
 \item{acronyms}{name of acronym data frame as character string}
@@ -39,7 +38,7 @@ acronyms$Include <- FALSE
 acronyms <- acronyms[order(acronyms$Acronym),]
 
 # place an acronym inline
-`r ac("IMO")`
+ac("IMO")
 
 # generate acronym table
 acTable("acronyms")

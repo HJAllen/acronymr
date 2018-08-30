@@ -53,7 +53,7 @@ acronyms$Include <- FALSE
 acronyms <- acronyms[order(acronyms$Acronym),]
 
 # inline usage
-`r ac(acronym = "IMO", acronyms = "acronyms", p = FALSE, altFrm = FALSE, lngFrm = FALSE)`
+ac(acronym = "IMO", acronyms = "acronyms", p = FALSE, altFrm = FALSE, lngFrm = FALSE)
 # or simply
-` ac("IMO")`
+ac("IMO")
 }

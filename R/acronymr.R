@@ -37,9 +37,9 @@
 #' acronyms <- acronyms[order(acronyms$Acronym),]
 #'
 #' # inline usage
-#' `r ac(acronym = "IMO", acronyms = "acronyms", p = FALSE, altFrm = FALSE, lngFrm = FALSE)`
+#' ac(acronym = "IMO", acronyms = "acronyms", p = FALSE, altFrm = FALSE, lngFrm = FALSE)
 #' # or simply
-#' ` ac("IMO")`
+#' ac("IMO")
 #' @export
 ac <- function(acronym = NULL, # Reference name of the acronym
                acronyms = "acronyms", # dataframe containing acronyms
@@ -133,15 +133,14 @@ ac <- function(acronym = NULL, # Reference name of the acronym
 #' acronyms <- acronyms[order(acronyms$Acronym),]
 #'
 #' # place an acronym inline
-#' `r ac("IMO")`
+#' ac("IMO")
 #'
 #' # generate acronym table
 #' acTable("acronyms")
 #' @export
 acTable <- function(acronyms = "acronyms",
                      altFrm = TRUE,
-                     Caption = NULL,
-                     Tag = FALSE){
+                     Caption = NULL){
   # Check if acronyms exists
   if(!exists(acronyms)){
     message(paste("Acronyms data frame", acronyms, "not found."))
